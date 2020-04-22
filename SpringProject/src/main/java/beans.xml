@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans.xsd
+	http://www.springframework.org/schema/context
+	http://www.springframework.org/schema/context/spring-context-4.1.xsd">
+
+	<context:component-scan base-package="omar.ejemplos.ComponentScan"/>
+	
+	<!-- bean ejemplo Context-aplication -->
+	<bean id="empServiceContext" 
+		class="omar.ejemplos.ApplicationContext.EmployeeServiceImpl">
+	</bean>
+	
+	<bean id="employeeService"
+		class="omar.ejemplos.DependencyInjection.EmployeeServiceImpl">
+		<constructor-arg ref="employeeDao" />  <!-- 1a forma -->
+		<property name="employeeDao" ref="employeeDao" /> <!-- 2a forma -->
+	</bean>
+	
+	<bean id="employeeDao"
+		class="omar.ejemplos.DependencyInjection.EmployeeDaoImpl">
+	</bean>
+	
+	<!-- bean ejemplo constructor-arg -->
+	<bean id="employIndex" class="omar.ejemplos.ConstructionArg.Employee">
+		<constructor-arg value="Ravi Kant Soni" index="0" />
+		<constructor-arg value="28" index="1"/>
+		<constructor-arg value="False" index="2"/>
+	</bean>
+	
+	<!-- bean ejemplo constructor-arg -->
+	<bean id="employType" class="omar.ejemplos.ConstructionArg.Employee2">
+		<constructor-arg value="Ravi Kant Soni" type="java.lang.String"/>
+		<constructor-arg value="1065" type="java.lang.String"/>
+		<constructor-arg value="28" type="int"/>
+	</bean>
+	
+	
+	<!-- bean ejemplo Setter Injection -->
+	<bean id="employProperty" class="omar.ejemplos.SetterInjection.Employee">
+		<property name="employeeName" value="Ravi Kant Soni" />
+	</bean>
+	
+	<!-- bean ejemplo Setter Injection -->
+	<bean id="employPropertyList" class="omar.ejemplos.SetterInjection.Employee2">
+		<property name="lists">
+			<list>
+				<value>Ravi Kant Soni</value>
+				<value>Shashi Kant Soni</value>
+				<value>Shree Kant Soni</value>
+			</list>
+		</property>
+		<property name="sets">
+			<set>
+				<value>Namrata Soni</value>
+				<value>Rishi Raj Soni</value>
+			</set>
+		</property>
+		<property name="maps">
+			<map>
+				<entry key="Key 1" value="Sasaram"/>
+				<entry key="Key 2" value="Bihar"/>
+			</map>
+		</property>
+	</bean>
+	
+	<!-- bean ejemplo Setter Injection -->
+	<bean id="atmBean" class="omar.ejemplos.SetterInjection.ATM">
+		<property name="printer">
+			<bean class="omar.ejemplos.SetterInjection.Printer">
+				<property name="message"
+						value="Utilizando Setter Ijection property bean"></property>
+			</bean>
+		</property>
+	</bean>
+	
+	
+	<!-- bean ejemplo Inheritance -->
+	<bean id="indianEmployee"
+		class="omar.ejemplos.Inheritance.Employee">
+		<property name="country" value="India"></property>
+	</bean>
+	
+	<bean id="employeeBean" parent="indianEmployee">
+		<property name="employeeId" value="1065"></property>
+		<property name="employeeName" value="Ravi Kant Soni"></property>
+	</bean>
+	
+</beans>

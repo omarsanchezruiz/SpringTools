@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans.xsd
+	http://www.springframework.org/schema/context
+	http://www.springframework.org/schema/context/spring-context-4.1.xsd">
+
+	<context:component-scan base-package="mx.com.omar.ejemplos.component_scan"/>
+	
+	<!-- bean ejemplo Context-aplication -->
+	<bean id="empServiceContext" 
+		class="mx.com.omar.ejemplos.application_context.EmployeeServiceImpl">
+	</bean>
+	
+	<bean id="employeeService"
+		class="mx.com.omar.ejemplos.dependency_injection.EmployeeServiceImpl">
+		<constructor-arg ref="employeeDao" />  <!-- 1a forma -->
+		<property name="employeeDao" ref="employeeDao" /> <!-- 2a forma -->
+	</bean>
+	
+	<bean id="employeeDao"
+		class="mx.com.omar.ejemplos.dependency_injection.EmployeeDaoImpl">
+	</bean>
+	
+	<!-- bean ejemplo constructor-arg -->
+	<bean id="employIndex" class="mx.com.omar.ejemplos.construction_arg.Employee">
+		<constructor-arg value="${employeeName}" index="0" />
+		<constructor-arg value="${employeeAge}" index="1"/>
+		<constructor-arg value="${isMarried}" index="2"/>
+	</bean>
+	
+	<!-- bean ejemplo constructor-arg -->
+	<bean id="employType" class="mx.com.omar.ejemplos.construction_arg.Employee2">
+		<constructor-arg value="${employeeName}" type="java.lang.String"/>
+		<constructor-arg value="${employeeId}" type="java.lang.String"/>
+		<constructor-arg value="${employeeAge}" type="int"/>
+	</bean>
+	
+	
+	<!-- bean ejemplo Setter Injection -->
+	<bean id="employProperty" class="mx.com.omar.ejemplos.setter_injection.Employee">
+		<property name="employeeName" value="${employeeName}" />
+	</bean>
+	
+	<!-- bean ejemplo Setter Injection -->
+	<bean id="employPropertyList" class="mx.com.omar.ejemplos.setter_injection.Employee2">
+		<property name="lists">
+			<list>
+				<value>${employeeName}</value>
+				<value>${employeeNameB}</value>
+				<value>${employeeNameC}</value>
+			</list>
+		</property>
+		<property name="sets">
+			<set>
+				<value>${employeeName}</value>
+				<value>${employeeNameC</value>
+			</set>
+		</property>
+		<property name="maps">
+			<map>
+				<entry key="Key 1" value="${employeeName}"/>
+				<entry key="Key 2" value="${employeeNameC"/>
+			</map>
+		</property>
+	</bean>
+	
+	<!-- bean ejemplo Setter Injection -->
+	<bean id="atmBean" class="mx.com.omar.ejemplos.setter_injection.ATM">
+		<property name="printer">
+			<bean class="mx.com.omar.ejemplos.setter_injection.Printer">
+				<property name="message"
+						value="${messageSetter}"></property>
+			</bean>
+		</property>
+	</bean>
+	
+	
+	<!-- bean ejemplo Inheritance -->
+	<bean id="indianEmployee"
+		class="mx.com.omar.ejemplos.inheritance.Employee">
+		<property name="country" value="${country}"></property>
+	</bean>
+	
+	<bean id="employeeBean" parent="indianEmployee">
+		<property name="employeeId" value="${employeeId}"></property>
+		<property name="employeeName" value="${employeeName}"></property>
+	</bean>
+	
+	<bean  
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="location" value="application.properties" />
+	</bean>
+	
+</beans>
